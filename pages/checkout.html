@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout — LocalCart</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/customer.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="container navbar-inner">
+      <a href="../index.html" class="logo">
+        <i data-lucide="shopping-bag"></i> Local<span>Cart</span>
+      </a>
+      <nav class="navbar-links">
+        <a href="cart.html" class="nav-link">← Back to Cart</a>
+      </nav>
+      <div class="navbar-actions">
+        <span style="font-size:0.9rem; font-weight:700; color:var(--primary);"><i data-lucide="shield-check"></i> 100% Secure Checkout</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" style="padding-top:2.5rem; padding-bottom:4rem;">
+    <h1 style="font-size:2.25rem; font-weight:800; color:var(--navy); margin-bottom:1.5rem;">Checkout</h1>
+
+    <div class="checkout-container" style="display:grid; grid-template-columns: 1fr 380px; gap:2rem;">
+      
+      <!-- Left Column: Address & Payment -->
+      <div style="display:flex; flex-direction:column; gap:1.75rem;">
+        
+        <!-- 1. Customer Information & Delivery Address -->
+        <div class="card" style="padding:1.75rem;">
+          <h3 style="font-size:1.25rem; color:var(--navy); font-weight:800; margin-bottom:1.25rem;">
+            <i data-lucide="map-pin" style="color:var(--primary);"></i> 1. Delivery Address & Contact
+          </h3>
+          
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1rem;">
+            <div class="form-group">
+              <label class="form-label">Full Name</label>
+              <input type="text" id="checkout-name" class="form-control" value="Jagan Mohan">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Phone Number</label>
+              <input type="tel" id="checkout-phone" class="form-control" value="+91 98450 12345">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Street Address / Flat / Building</label>
+            <input type="text" id="checkout-address" class="form-control" value="Flat 402, Sunrise Apartments, 12th Cross, Indiranagar">
+          </div>
+
+          <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:1rem;">
+            <div class="form-group">
+              <label class="form-label">City</label>
+              <input type="text" class="form-control" value="Bengaluru">
+            </div>
+            <div class="form-group">
+              <label class="form-label">State</label>
+              <input type="text" class="form-control" value="Karnataka">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Pincode</label>
+              <input type="text" class="form-control" value="560038">
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Payment Method -->
+        <div class="card" style="padding:1.75rem;">
+          <h3 style="font-size:1.25rem; color:var(--navy); font-weight:800; margin-bottom:1.25rem;">
+            <i data-lucide="credit-card" style="color:var(--accent);"></i> 2. Payment Method (Frontend UI Demo)
+          </h3>
+
+          <div style="display:flex; flex-direction:column; gap:0.85rem;">
+            <label class="card" style="padding:1rem; cursor:pointer; display:flex; align-items:center; gap:1rem; border-color:var(--primary);">
+              <input type="radio" name="pay-method" value="Cash on Delivery" checked style="width:18px; height:18px;">
+              <div>
+                <div style="font-weight:700; color:var(--navy);">Cash on Delivery (CoD)</div>
+                <div style="font-size:0.8rem; color:var(--muted);">Pay cash or scan QR when rider arrives</div>
+              </div>
+            </label>
+
+            <label class="card" style="padding:1rem; cursor:pointer; display:flex; align-items:center; gap:1rem;">
+              <input type="radio" name="pay-method" value="UPI (Google Pay / PhonePe)" style="width:18px; height:18px;">
+              <div>
+                <div style="font-weight:700; color:var(--navy);">UPI (Google Pay / PhonePe / Paytm)</div>
+                <div style="font-size:0.8rem; color:var(--muted);">Instant zero-fee payment</div>
+              </div>
+            </label>
+
+            <label class="card" style="padding:1rem; cursor:pointer; display:flex; align-items:center; gap:1rem;">
+              <input type="radio" name="pay-method" value="Credit / Debit Card" style="width:18px; height:18px;">
+              <div>
+                <div style="font-weight:700; color:var(--navy);">Credit / Debit Card</div>
+                <div style="font-size:0.8rem; color:var(--muted);">Visa, Mastercard, RuPay cards supported</div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right Column: Order Summary Preview & Submit -->
+      <div>
+        <div class="card" style="padding:1.5rem; position:sticky; top:90px;">
+          <h3 style="font-size:1.2rem; color:var(--navy); font-weight:800; margin-bottom:1.25rem;">Order Review</h3>
+
+          <div id="checkout-items-preview" style="max-height:220px; overflow-y:auto; margin-bottom:1rem;">
+            <!-- Rendered by JS -->
+          </div>
+
+          <div style="border-top:1px solid var(--border); padding-top:1rem; display:flex; flex-direction:column; gap:0.5rem; font-size:0.9rem;">
+            <div style="display:flex; justify-content:space-between;">
+              <span class="text-muted">Subtotal</span>
+              <span id="chk-subtotal" style="font-weight:700;">₹0</span>
+            </div>
+            <div style="display:flex; justify-content:space-between;">
+              <span class="text-muted">Delivery</span>
+              <span id="chk-delivery" style="font-weight:700; color:var(--primary);">FREE</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; font-size:1.25rem; font-weight:800; color:var(--navy); border-top:1px solid var(--border); padding-top:0.75rem; margin-top:0.5rem;">
+              <span>Total Payable</span>
+              <span id="chk-total" style="color:var(--primary);">₹0</span>
+            </div>
+          </div>
+
+          <button class="btn btn-accent btn-lg" style="width:100%; margin-top:1.5rem;" onclick="submitCheckoutForm()">
+            Place Order Now ➔
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="../js/data.js"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/cart.js"></script>
+  <script src="../js/orders.js"></script>
+  <script src="../js/customer.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      renderCheckoutSummary();
+    });
+
+    function renderCheckoutSummary() {
+      const cart = getCart();
+      const preview = document.getElementById("checkout-items-preview");
+
+      if (cart.length === 0) {
+        window.location.href = "cart.html";
+        return;
+      }
+
+      preview.innerHTML = cart.map(item => `
+        <div style="display:flex; justify-content:space-between; font-size:0.88rem; margin-bottom:0.6rem;">
+          <div>
+            <strong style="color:var(--navy);">${item.name}</strong>
+            <div style="font-size:0.75rem; color:var(--muted);">Qty: ${item.qty}</div>
+          </div>
+          <span style="font-weight:700;">${formatINR(item.price * item.qty)}</span>
+        </div>
+      `).join("");
+
+      const { subtotal, deliveryFee, total } = calculateCartTotals();
+      document.getElementById("chk-subtotal").textContent = formatINR(subtotal);
+      document.getElementById("chk-delivery").textContent = deliveryFee === 0 ? "FREE" : formatINR(deliveryFee);
+      document.getElementById("chk-total").textContent = formatINR(total);
+    }
+
+    function submitCheckoutForm() {
+      const address = document.getElementById("checkout-address").value.trim();
+      const payMethod = document.querySelector('input[name="pay-method"]:checked').value;
+      placeOrder(payMethod, address);
+    }
+  </script>
+</body>
+</html>

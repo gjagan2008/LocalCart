@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Store Reviews — Seller Portal</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/seller.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+
+  <div class="dashboard-layout">
+    <aside class="sidebar">
+      <div class="sidebar-brand"><i data-lucide="shopping-bag"></i> Seller<span>Portal</span></div>
+      <div class="sidebar-menu">
+        <a href="dashboard.html" class="sidebar-link"><i data-lucide="layout-dashboard"></i> Dashboard</a>
+        <a href="shop.html" class="sidebar-link"><i data-lucide="store"></i> My Shop</a>
+        <a href="products.html" class="sidebar-link"><i data-lucide="package"></i> Products</a>
+        <a href="add-product.html" class="sidebar-link"><i data-lucide="plus-circle"></i> Add Product</a>
+        <a href="orders.html" class="sidebar-link"><i data-lucide="shopping-cart"></i> Orders</a>
+        <a href="inventory.html" class="sidebar-link"><i data-lucide="layers"></i> Inventory</a>
+        <a href="reviews.html" class="sidebar-link active"><i data-lucide="star"></i> Reviews</a>
+        <a href="analytics.html" class="sidebar-link"><i data-lucide="bar-chart-2"></i> Analytics</a>
+        <a href="settings.html" class="sidebar-link"><i data-lucide="settings"></i> Settings</a>
+      </div>
+      <div class="sidebar-footer">
+        <button class="sidebar-link" onclick="handleLogout()"><i data-lucide="log-out"></i> Logout</button>
+      </div>
+    </aside>
+
+    <div style="display:flex; flex-direction:column; min-height:100vh;">
+      <header class="dashboard-header">
+        <h2 style="font-size:1.4rem; font-weight:800; color:var(--navy);">Customer Feedback & Reviews</h2>
+      </header>
+
+      <main class="dashboard-main" style="flex-grow:1;">
+        <div style="display:flex; flex-direction:column; gap:1rem;">
+          <div class="card" style="padding:1.5rem;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;">
+              <strong style="color:var(--navy);">Jagan Mohan</strong>
+              <span class="rating-pill"><i data-lucide="star"></i> 5.0</span>
+            </div>
+            <p style="color:var(--muted); font-size:0.92rem;">"Order arrived in 15 minutes! Very happy with the quality of Aashirvaad Atta."</p>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="../js/data.js"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/auth.js"></script>
+</body>
+</html>

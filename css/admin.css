@@ -1,0 +1,112 @@
+/* ==========================================================================
+   LocalCart — Admin Portal Stylesheet
+   ========================================================================== */
+
+.admin-grid-8 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+/* Status Badges for Admin Management */
+.badge-pending {
+  background: var(--warning-light);
+  color: var(--warning);
+}
+
+.badge-approved, .badge-active {
+  background: var(--success-light);
+  color: var(--success);
+}
+
+.badge-rejected, .badge-suspended, .badge-blocked {
+  background: var(--danger-light);
+  color: var(--danger);
+}
+
+/* Complaints Panel */
+.complaint-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.complaint-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.complaint-id {
+  font-weight: 700;
+  color: var(--navy);
+  font-size: 0.95rem;
+}
+
+.complaint-user {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.complaint-desc {
+  font-size: 0.9rem;
+  color: var(--text);
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+
+/* Admin Quick Filter Pills */
+.filter-pills {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.filter-pill {
+  padding: 0.4rem 0.9rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border);
+  background: var(--white);
+  color: var(--text);
+  cursor: pointer;
+}
+
+.filter-pill.active {
+  background: var(--navy);
+  color: var(--white);
+  border-color: var(--navy);
+}
+
+/* Admin Modal Details Grid */
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.detail-item {
+  background: var(--background);
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-md);
+}
+
+.detail-item label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+.detail-item span {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--navy);
+}

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Details — LocalCart</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/customer.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="container navbar-inner">
+      <a href="../index.html" class="logo">
+        <i data-lucide="shopping-bag"></i> Local<span>Cart</span>
+      </a>
+      <nav class="navbar-links">
+        <a href="../index.html" class="nav-link">Home</a>
+        <a href="shops.html" class="nav-link">Shops</a>
+      </nav>
+      <div class="navbar-actions">
+        <a href="cart.html" class="cart-icon-btn" title="View Cart">
+          <i data-lucide="shopping-cart"></i>
+          <span class="cart-badge">0</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" style="padding-top:3rem; padding-bottom:4rem;">
+    <!-- Product Detail Card -->
+    <div class="card" id="product-detail-box" style="padding:2.5rem; margin-bottom:3rem;">
+      <!-- Dynamic render -->
+    </div>
+
+    <!-- Related Products -->
+    <div style="margin-top:3rem;">
+      <h2 style="font-size:1.6rem; color:var(--navy); margin-bottom:1.5rem;">Related Products</h2>
+      <div class="grid-4" id="related-products-grid">
+        <!-- Dynamic list -->
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <div>© 2026 LocalCart Marketplace. All rights reserved.</div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/data.js"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/cart.js"></script>
+  <script src="../js/customer.js"></script>
+  <script>
+    let currentQty = 1;
+    let targetProduct = null;
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const params = new URLSearchParams(window.location.search);
+      const prodId = params.get("id") || "p-101";
+
+      const products = JSON.parse(localStorage.getItem("localcart_products") || "[]");
+      targetProduct = products.find(p => p.id === prodId) || products[0];
+
+      renderProductDetail(targetProduct);
+      renderRelatedProducts(targetProduct.category, targetProduct.id);
+    });
+
+    function renderProductDetail(p) {
+      document.title = `${p.name} — LocalCart`;
+
+      const box = document.getElementById("product-detail-box");
+      box.innerHTML = `
+        <div style="display:grid; grid-template-columns: 1fr 1.2fr; gap:3rem; align-items:center;">
+          <div style="background:#f8fafc; border-radius:var(--radius-lg); padding:2rem; text-align:center;">
+            <img src="${p.image}" alt="${p.name}" style="max-height:340px; margin:0 auto; object-fit:contain;">
+          </div>
+
+          <div>
+            <a href="shop-details.html?id=${p.shopId}" class="product-shop-name" style="font-size:0.9rem;">
+              <i data-lucide="store" style="vertical-align:middle;"></i> ${p.shopName}
+            </a>
+            <h1 style="font-size:2.25rem; font-weight:800; color:var(--navy); margin:0.5rem 0 1rem 0;">${p.name}</h1>
+            
+            <div style="display:flex; align-items:center; gap:1rem; margin-bottom:1.25rem;">
+              <span class="rating-pill"><i data-lucide="star"></i> ${p.rating} (48 Ratings)</span>
+              <span class="badge ${p.stock > 0 ? 'badge-success' : 'badge-danger'}">${p.stock > 0 ? `In Stock (${p.stock} units)` : 'Out of Stock'}</span>
+              <span style="color:var(--muted); font-size:0.9rem;">Unit: ${p.unit}</span>
+            </div>
+
+            <div style="font-size:2.25rem; font-weight:800; color:var(--navy); margin-bottom:1.25rem;">
+              ${formatINR(p.price)}
+              ${p.oldPrice ? `<span style="font-size:1.15rem; color:var(--muted); text-decoration:line-through; margin-left:0.75rem;">${formatINR(p.oldPrice)}</span>` : ''}
+            </div>
+
+            <p style="color:var(--muted); line-height:1.6; margin-bottom:2rem; font-size:1rem;">${p.description}</p>
+
+            <div style="display:flex; align-items:center; gap:1.5rem; margin-bottom:2rem;">
+              <label class="form-label" style="margin:0;">Quantity:</label>
+              <div class="qty-control">
+                <button class="qty-btn" onclick="changeDetailQty(-1)">-</button>
+                <span class="qty-val" id="detail-qty-val">1</span>
+                <button class="qty-btn" onclick="changeDetailQty(1)">+</button>
+              </div>
+            </div>
+
+            <div style="display:flex; gap:1rem;">
+              <button class="btn btn-primary btn-lg" style="flex:1;" onclick="addToCart('${p.id}', currentQty)">
+                <i data-lucide="shopping-cart"></i> Add to Cart
+              </button>
+              <button class="btn btn-accent btn-lg" style="flex:1;" onclick="buyNow('${p.id}')">
+                <i data-lucide="bolt"></i> Buy Now
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+
+      renderIcons();
+    }
+
+    function changeDetailQty(delta) {
+      currentQty = Math.max(1, currentQty + delta);
+      document.getElementById("detail-qty-val").textContent = currentQty;
+    }
+
+    function buyNow(productId) {
+      addToCart(productId, currentQty);
+      window.location.href = "cart.html";
+    }
+
+    function renderRelatedProducts(category, currentId) {
+      const products = JSON.parse(localStorage.getItem("localcart_products") || "[]");
+      const related = products.filter(p => p.category === category && p.id !== currentId).slice(0, 4);
+
+      const grid = document.getElementById("related-products-grid");
+      grid.innerHTML = related.map(p => createProductCardHTML(p, true)).join("");
+      renderIcons();
+    }
+  </script>
+</body>
+</html>

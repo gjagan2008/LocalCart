@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shop Details — LocalCart</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/customer.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="container navbar-inner">
+      <a href="../index.html" class="logo">
+        <i data-lucide="shopping-bag"></i> Local<span>Cart</span>
+      </a>
+
+      <nav class="navbar-links">
+        <a href="../index.html" class="nav-link">Home</a>
+        <a href="shops.html" class="nav-link active">Shops</a>
+        <a href="../index.html#categories" class="nav-link">Categories</a>
+      </nav>
+
+      <div class="navbar-actions">
+        <a href="login.html" class="btn btn-outline btn-sm btn-text">Login</a>
+        <a href="cart.html" class="cart-icon-btn" title="View Cart">
+          <i data-lucide="shopping-cart"></i>
+          <span class="cart-badge">0</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Shop Header Banner -->
+  <div id="shop-header-banner" style="position:relative; height:240px; background:#102A43; color:white;">
+    <!-- Loaded dynamically -->
+  </div>
+
+  <main class="container" style="padding-top:2rem; padding-bottom:4rem;">
+    <!-- Shop Info Bar -->
+    <div class="card" id="shop-info-card" style="margin-top:-60px; position:relative; z-index:10; padding:1.75rem; margin-bottom:2.5rem;">
+      <!-- Loaded dynamically -->
+    </div>
+
+    <!-- Shop Products Grid Section -->
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem;">
+      <h2 style="font-size:1.6rem; color:var(--navy);">Products from this store</h2>
+      <div style="width:260px;">
+        <input type="text" id="shop-product-search" class="form-control" placeholder="Search in store..." oninput="filterShopProducts()">
+      </div>
+    </div>
+
+    <div class="grid-4" id="shop-products-grid">
+      <!-- Dynamic products -->
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <div>© 2026 LocalCart Marketplace. All rights reserved.</div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/data.js"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/cart.js"></script>
+  <script src="../js/customer.js"></script>
+  <script>
+    let currentShopId = "shop-1";
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const params = new URLSearchParams(window.location.search);
+      currentShopId = params.get("id") || "shop-1";
+
+      const shops = JSON.parse(localStorage.getItem("localcart_shops") || "[]");
+      const shop = shops.find(s => s.id === currentShopId) || shops[0];
+
+      renderShopHeader(shop);
+      renderShopProducts(shop.id);
+    });
+
+    function renderShopHeader(shop) {
+      document.title = `${shop.name} — LocalCart`;
+
+      const bannerContainer = document.getElementById("shop-header-banner");
+      bannerContainer.innerHTML = `
+        <img src="${shop.banner}" alt="${shop.name}" style="width:100%; height:100%; object-fit:cover; opacity:0.4;">
+      `;
+
+      const infoContainer = document.getElementById("shop-info-card");
+      infoContainer.innerHTML = `
+        <div style="display:flex; gap:1.5rem; align-items:center; flex-wrap:wrap;">
+          <img src="${shop.logo}" alt="${shop.name}" style="width:90px; height:90px; border-radius:var(--radius-lg); border:3px solid var(--white); box-shadow:var(--shadow-md); object-fit:cover;">
+          <div style="flex-grow:1;">
+            <div style="display:flex; align-items:center; gap:0.75rem; margin-bottom:0.3rem;">
+              <h1 style="font-size:1.85rem; font-weight:800; color:var(--navy);">${shop.name}</h1>
+              <span class="badge ${shop.isOpen ? 'badge-open' : 'badge-closed'}">${shop.isOpen ? 'OPEN NOW' : 'CLOSED'}</span>
+            </div>
+            <p style="color:var(--muted); font-size:0.95rem; margin-bottom:0.75rem;">${shop.description}</p>
+            <div style="display:flex; gap:1.5rem; font-size:0.88rem; color:var(--navy); font-weight:600; flex-wrap:wrap;">
+              <span><i data-lucide="tag" style="color:var(--primary);"></i> ${shop.category}</span>
+              <span><i data-lucide="star" style="color:#d69e2e;"></i> ${shop.rating} (${shop.reviewsCount} reviews)</span>
+              <span><i data-lucide="map-pin" style="color:var(--primary);"></i> ${shop.distance} (${shop.address})</span>
+              <span><i data-lucide="clock" style="color:var(--accent);"></i> ${shop.hours}</span>
+            </div>
+          </div>
+        </div>
+      `;
+
+      renderIcons();
+    }
+
+    function renderShopProducts(shopId) {
+      const products = JSON.parse(localStorage.getItem("localcart_products") || "[]");
+      const shopProducts = products.filter(p => p.shopId === shopId);
+      const grid = document.getElementById("shop-products-grid");
+
+      if (shopProducts.length === 0) {
+        grid.innerHTML = `
+          <div class="empty-state" style="grid-column: 1 / -1;">
+            <h3>No products found for this shop</h3>
+          </div>
+        `;
+        return;
+      }
+
+      grid.innerHTML = shopProducts.map(p => createProductCardHTML(p, true)).join("");
+      renderIcons();
+    }
+
+    function filterShopProducts() {
+      const q = document.getElementById("shop-product-search").value.toLowerCase();
+      const products = JSON.parse(localStorage.getItem("localcart_products") || "[]");
+      const filtered = products.filter(p => p.shopId === currentShopId && p.name.toLowerCase().includes(q));
+
+      const grid = document.getElementById("shop-products-grid");
+      grid.innerHTML = filtered.map(p => createProductCardHTML(p, true)).join("");
+      renderIcons();
+    }
+  </script>
+</body>
+</html>

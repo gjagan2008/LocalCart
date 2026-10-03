@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inventory — Seller Portal</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/seller.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+
+  <div class="dashboard-layout">
+    <aside class="sidebar">
+      <div class="sidebar-brand"><i data-lucide="shopping-bag"></i> Seller<span>Portal</span></div>
+      <div class="sidebar-menu">
+        <a href="dashboard.html" class="sidebar-link"><i data-lucide="layout-dashboard"></i> Dashboard</a>
+        <a href="shop.html" class="sidebar-link"><i data-lucide="store"></i> My Shop</a>
+        <a href="products.html" class="sidebar-link"><i data-lucide="package"></i> Products</a>
+        <a href="add-product.html" class="sidebar-link"><i data-lucide="plus-circle"></i> Add Product</a>
+        <a href="orders.html" class="sidebar-link"><i data-lucide="shopping-cart"></i> Orders</a>
+        <a href="inventory.html" class="sidebar-link active"><i data-lucide="layers"></i> Inventory</a>
+        <a href="reviews.html" class="sidebar-link"><i data-lucide="star"></i> Reviews</a>
+        <a href="analytics.html" class="sidebar-link"><i data-lucide="bar-chart-2"></i> Analytics</a>
+        <a href="settings.html" class="sidebar-link"><i data-lucide="settings"></i> Settings</a>
+      </div>
+      <div class="sidebar-footer">
+        <button class="sidebar-link" onclick="handleLogout()"><i data-lucide="log-out"></i> Logout</button>
+      </div>
+    </aside>
+
+    <div style="display:flex; flex-direction:column; min-height:100vh;">
+      <header class="dashboard-header">
+        <h2 style="font-size:1.4rem; font-weight:800; color:var(--navy);">Inventory Management</h2>
+      </header>
+
+      <main class="dashboard-main" style="flex-grow:1;">
+        <!-- Low Stock Warning Banner -->
+        <div class="low-stock-alert">
+          <i data-lucide="alert-triangle" style="font-size:1.5rem;"></i>
+          <div>
+            <strong>Low Stock Warning:</strong> 1 product has fallen below 5 units. Please restock soon to avoid missing order fulfillments.
+          </div>
+        </div>
+
+        <div class="data-table-card">
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>SKU Code</th>
+                  <th>Stock Units</th>
+                  <th>Status Badge</th>
+                  <th>Quick Action</th>
+                </tr>
+              </thead>
+              <tbody id="inventory-table-body">
+                <!-- Loaded dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="../js/data.js"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/seller.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      renderInventoryTable();
+    });
+
+    function renderInventoryTable() {
+      const products = JSON.parse(localStorage.getItem("localcart_products") || "[]");
+      const body = document.getElementById("inventory-table-body");
+
+      body.innerHTML = products.map(p => `
+        <tr>
+          <td><strong style="color:var(--navy);">${p.name}</strong></td>
+          <td>SKU-${p.id.toUpperCase()}</td>
+          <td><strong class="${p.stock < 10 ? 'text-accent' : ''}">${p.stock} units</strong></td>
+          <td>
+            <span class="badge ${p.stock > 10 ? 'badge-success' : p.stock > 0 ? 'badge-warning' : 'badge-danger'}">
+              ${p.stock > 10 ? 'IN STOCK' : p.stock > 0 ? 'LOW STOCK' : 'OUT OF STOCK'}
+            </span>
+          </td>
+          <td>
+            <button class="btn btn-outline btn-sm" onclick="restockProduct('${p.id}')">+ Restock 10 Units</button>
+          </td>
+        </tr>
+      `).join("");
+
+      renderIcons();
+    }
+
+    function restockProduct(id) {
+      const products = JSON.parse(localStorage.getItem("localcart_products") || "[]");
+      const p = products.find(prod => prod.id === id);
+      if (p) {
+        p.stock += 10;
+        localStorage.setItem("localcart_products", JSON.stringify(products));
+        showToast(`Restocked +10 units for ${p.name}`, "success");
+        renderInventoryTable();
+      }
+    }
+  </script>
+</body>
+</html>

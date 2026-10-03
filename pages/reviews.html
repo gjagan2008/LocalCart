@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Store Reviews — LocalCart</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/customer.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+
+  <header class="navbar">
+    <div class="container navbar-inner">
+      <a href="../index.html" class="logo"><i data-lucide="shopping-bag"></i> Local<span>Cart</span></a>
+      <nav class="navbar-links">
+        <a href="../index.html" class="nav-link">Home</a>
+        <a href="shops.html" class="nav-link">Shops</a>
+      </nav>
+      <div class="navbar-actions">
+        <a href="cart.html" class="cart-icon-btn"><i data-lucide="shopping-cart"></i><span class="cart-badge">0</span></a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" style="padding-top:2.5rem; padding-bottom:4rem;">
+    <h1 style="font-size:2.25rem; font-weight:800; color:var(--navy); margin-bottom:1.5rem;">Customer Reviews & Ratings</h1>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem;">
+      <div class="card" style="padding:1.5rem;">
+        <div style="display:flex; align-items:center; gap:0.75rem; margin-bottom:0.75rem;">
+          <span class="rating-pill"><i data-lucide="star"></i> 5.0</span>
+          <strong style="color:var(--navy);">Sri Murugan Stores</strong>
+        </div>
+        <p style="color:var(--muted); font-size:0.92rem;">"Super fast delivery! Got my daily vegetables and milk package in under 15 minutes."</p>
+        <div style="font-size:0.8rem; color:var(--text); margin-top:0.75rem; font-weight:600;">— Jagan Mohan (Bengaluru)</div>
+      </div>
+
+      <div class="card" style="padding:1.5rem;">
+        <div style="display:flex; align-items:center; gap:0.75rem; margin-bottom:0.75rem;">
+          <span class="rating-pill"><i data-lucide="star"></i> 4.8</span>
+          <strong style="color:var(--navy);">Green Basket</strong>
+        </div>
+        <p style="color:var(--muted); font-size:0.92rem;">"Organically grown tomatoes and onions were extremely fresh. Will order again!"</p>
+        <div style="font-size:0.8rem; color:var(--text); margin-top:0.75rem; font-weight:600;">— Priya Sharma</div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom"><div>© 2026 LocalCart Marketplace. All rights reserved.</div></div>
+    </div>
+  </footer>
+
+  <script src="../js/data.js"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/cart.js"></script>
+</body>
+</html>

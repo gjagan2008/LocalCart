@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Seller Dashboard — LocalCart</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/seller.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+
+</head>
+<body>
+
+  <div class="dashboard-layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <i data-lucide="shopping-bag"></i> Seller<span>Portal</span>
+      </div>
+
+      <div class="sidebar-menu">
+        <a href="dashboard.html" class="sidebar-link active"><i data-lucide="layout-dashboard"></i> Dashboard</a>
+        <a href="shop.html" class="sidebar-link"><i data-lucide="store"></i> My Shop</a>
+        <a href="products.html" class="sidebar-link"><i data-lucide="package"></i> Products</a>
+        <a href="add-product.html" class="sidebar-link"><i data-lucide="plus-circle"></i> Add Product</a>
+        <a href="orders.html" class="sidebar-link"><i data-lucide="shopping-cart"></i> Orders</a>
+        <a href="inventory.html" class="sidebar-link"><i data-lucide="layers"></i> Inventory</a>
+        <a href="reviews.html" class="sidebar-link"><i data-lucide="star"></i> Reviews</a>
+        <a href="analytics.html" class="sidebar-link"><i data-lucide="bar-chart-2"></i> Analytics</a>
+        <a href="settings.html" class="sidebar-link"><i data-lucide="settings"></i> Settings</a>
+      </div>
+
+      <div class="sidebar-footer">
+        <button class="sidebar-link" style="width:100%; border:none; background:none; cursor:pointer;" onclick="handleLogout()">
+          <i data-lucide="log-out"></i> Logout
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="main-area">
+
+      <!-- Top Header Bar -->
+      <header class="dashboard-header">
+        <div style="display:flex; align-items:center; gap:1rem;">
+          <button class="btn btn-outline btn-icon toggle-sidebar-btn" style="display:none;">
+            <i data-lucide="menu"></i>
+          </button>
+          <div>
+            <h2 style="font-size:1.4rem; font-weight:800; color:var(--navy);">Sri Murugan Stores</h2>
+            <div style="font-size:0.85rem; color:var(--muted);">Store ID: shop-1 • Grocery &amp; Essentials</div>
+          </div>
+        </div>
+
+        <div style="display:flex; align-items:center; gap:1.25rem;">
+          <a href="../index.html" class="btn btn-outline btn-sm"><i data-lucide="external-link"></i> Customer View</a>
+          <span class="badge badge-open">ONLINE</span>
+        </div>
+      </header>
+
+      <!-- Main Dashboard Body -->
+      <main class="dashboard-main" style="flex-grow:1;">
+
+        <!-- Stat Cards Grid -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div>
+              <div class="stat-label">Today's Revenue</div>
+              <div class="stat-val" id="seller-stat-revenue">₹0</div>
+            </div>
+            <div class="stat-icon stat-icon-green"><i data-lucide="indian-rupee"></i></div>
+          </div>
+
+          <div class="stat-card">
+            <div>
+              <div class="stat-label">Today's Orders</div>
+              <div class="stat-val" id="seller-stat-orders">0</div>
+            </div>
+            <div class="stat-icon stat-icon-orange"><i data-lucide="shopping-cart"></i></div>
+          </div>
+
+          <div class="stat-card">
+            <div>
+              <div class="stat-label">Total Products</div>
+              <div class="stat-val" id="seller-stat-products">0</div>
+            </div>
+            <div class="stat-icon stat-icon-navy"><i data-lucide="package"></i></div>
+          </div>
+
+          <div class="stat-card">
+            <div>
+              <div class="stat-label">Low Stock Alerts</div>
+              <div class="stat-val text-accent" id="seller-stat-lowstock">0</div>
+            </div>
+            <div class="stat-icon stat-icon-red"><i data-lucide="alert-triangle"></i></div>
+          </div>
+        </div>
+
+        <!-- Sales Chart & Rating -->
+        <div class="charts-row">
+          <div class="chart-card">
+            <h3 style="font-size:1.15rem; color:var(--navy);">Weekly Sales Performance</h3>
+            <div class="chart-container-box">
+              <canvas id="sellerSalesChart"></canvas>
+            </div>
+          </div>
+
+          <div class="chart-card">
+            <h3 style="font-size:1.15rem; color:var(--navy);">Store Rating &amp; Fulfillment</h3>
+            <div style="padding:2rem 1rem; text-align:center; flex:1; display:flex; flex-direction:column; justify-content:center;">
+              <div class="rating-score">4.8 <span style="font-size:1.5rem; color:#d69e2e;">★</span></div>
+              <div style="color:var(--muted); font-size:0.9rem; margin-bottom:1.5rem;">Based on 142 customer reviews</div>
+              <div class="rating-stats">
+                <div>
+                  <strong style="color:var(--primary); font-size:1.2rem;">98.5%</strong>
+                  <div style="font-size:0.75rem; color:var(--muted);">Fulfillment Rate</div>
+                </div>
+                <div>
+                  <strong style="color:var(--accent); font-size:1.2rem;">18 Mins</strong>
+                  <div style="font-size:0.75rem; color:var(--muted);">Avg Delivery Time</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Orders Table -->
+        <div class="data-table-card">
+          <div class="table-header">
+            <h3 style="font-size:1.15rem; color:var(--navy);">Recent Store Orders</h3>
+            <a href="orders.html" class="btn btn-outline btn-sm">View All Orders</a>
+          </div>
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Order ID</th>
+                  <th>Customer</th>
+                  <th>Items</th>
+                  <th>Amount</th>
+                  <th>Time</th>
+                  <th>Status Action</th>
+                </tr>
+              </thead>
+              <tbody id="seller-recent-orders-body">
+                <!-- Loaded dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- Overlay is OUTSIDE .dashboard-layout so it never takes a layout slot -->
+  <div class="sidebar-overlay"></div>
+
+  <script src="../js/data.js"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/seller.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      renderSellerDashboard();
+    });
+  </script>
+</body>
+</html>

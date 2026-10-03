@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Explore Shops — LocalCart</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/customer.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="container navbar-inner">
+      <a href="../index.html" class="logo">
+        <i data-lucide="shopping-bag"></i> Local<span>Cart</span>
+      </a>
+
+      <nav class="navbar-links">
+        <a href="../index.html" class="nav-link">Home</a>
+        <a href="shops.html" class="nav-link active">Shops</a>
+        <a href="../index.html#categories" class="nav-link">Categories</a>
+        <a href="../index.html#offers" class="nav-link">Offers</a>
+      </nav>
+
+      <div class="navbar-actions">
+        <div class="location-selector" onclick="openModal('location-modal')">
+          <i data-lucide="map-pin"></i>
+          <span>Indiranagar, Bengaluru</span>
+          <i data-lucide="chevron-down"></i>
+        </div>
+
+        <a href="login.html" class="btn btn-outline btn-sm btn-text">Login</a>
+
+        <a href="cart.html" class="cart-icon-btn" title="View Cart">
+          <i data-lucide="shopping-cart"></i>
+          <span class="cart-badge">0</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" style="padding-top:2.5rem; padding-bottom:4rem;">
+    <!-- Page Title & Search Bar -->
+    <div style="margin-bottom:2rem;">
+      <h1 style="font-size:2.25rem; font-weight:800; color:var(--navy); margin-bottom:0.5rem;">Explore Local Shops</h1>
+      <p style="color:var(--muted);">Discover top-rated local grocery, pharmacy and daily stores in your area.</p>
+    </div>
+
+    <!-- Search & Filter Controls -->
+    <div class="card" style="padding:1.25rem; margin-bottom:2rem;">
+      <div style="display:grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap:1rem; align-items:center;">
+        <div class="form-group" style="margin:0;">
+          <input type="text" id="shop-search-input" class="form-control" placeholder="Search shops by name..." oninput="filterShops()">
+        </div>
+
+        <div class="form-group" style="margin:0;">
+          <select id="shop-cat-filter" class="form-control" onchange="filterShops()">
+            <option value="ALL">All Categories</option>
+            <option value="Grocery">Grocery</option>
+            <option value="Pharmacy">Pharmacy</option>
+            <option value="Vegetables">Vegetables</option>
+            <option value="Bakery">Bakery</option>
+            <option value="Electronics">Electronics</option>
+          </select>
+        </div>
+
+        <div class="form-group" style="margin:0;">
+          <select id="shop-dist-filter" class="form-control" onchange="filterShops()">
+            <option value="ALL">Any Distance</option>
+            <option value="1.0">Under 1.0 km</option>
+            <option value="2.0">Under 2.0 km</option>
+          </select>
+        </div>
+
+        <div class="form-group" style="margin:0;">
+          <select id="shop-sort-filter" class="form-control" onchange="filterShops()">
+            <option value="rating">Sort: Top Rated</option>
+            <option value="distance">Sort: Distance</option>
+            <option value="name">Sort: Name</option>
+          </select>
+        </div>
+
+        <div style="display:flex; align-items:center; gap:0.5rem;">
+          <input type="checkbox" id="shop-open-filter" onchange="filterShops()" style="width:18px; height:18px;">
+          <label for="shop-open-filter" style="font-size:0.88rem; font-weight:700; color:var(--navy); cursor:pointer;">Open Now</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Shops Grid -->
+    <div class="grid-3" id="explore-shops-grid">
+      <!-- Dynamic list -->
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <div>© 2026 LocalCart Marketplace. All rights reserved.</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Mobile Bottom Nav -->
+  <nav class="mobile-bottom-nav">
+    <div class="mobile-nav-items">
+      <a href="../index.html" class="mobile-nav-item"><i data-lucide="home"></i><span>Home</span></a>
+      <a href="shops.html" class="mobile-nav-item active"><i data-lucide="store"></i><span>Shops</span></a>
+      <a href="cart.html" class="mobile-nav-item"><i data-lucide="shopping-cart"></i><span>Cart</span><span class="mobile-nav-badge">0</span></a>
+      <a href="orders.html" class="mobile-nav-item"><i data-lucide="package"></i><span>Orders</span></a>
+      <a href="profile.html" class="mobile-nav-item"><i data-lucide="user"></i><span>Profile</span></a>
+    </div>
+  </nav>
+
+  <script src="../js/data.js"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/cart.js"></script>
+  <script src="../js/customer.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // Check query params
+      const params = new URLSearchParams(window.location.search);
+      const catParam = params.get("category");
+      const searchParam = params.get("q");
+
+      if (catParam) {
+        document.getElementById("shop-cat-filter").value = catParam;
+      }
+      if (searchParam) {
+        document.getElementById("shop-search-input").value = searchParam;
+      }
+
+      filterShops();
+    });
+
+    function filterShops() {
+      const q = document.getElementById("shop-search-input").value.toLowerCase().trim();
+      const cat = document.getElementById("shop-cat-filter").value;
+      const dist = document.getElementById("shop-dist-filter").value;
+      const sort = document.getElementById("shop-sort-filter").value;
+      const openOnly = document.getElementById("shop-open-filter").checked;
+
+      let shops = JSON.parse(localStorage.getItem("localcart_shops") || "[]");
+
+      // Filter by search query
+      if (q) {
+        shops = shops.filter(s => s.name.toLowerCase().includes(q) || s.category.toLowerCase().includes(q));
+      }
+
+      // Filter by category
+      if (cat !== "ALL") {
+        shops = shops.filter(s => s.category === cat);
+      }
+
+      // Filter by distance
+      if (dist !== "ALL") {
+        const maxDist = parseFloat(dist);
+        shops = shops.filter(s => parseFloat(s.distance) <= maxDist);
+      }
+
+      // Filter by open status
+      if (openOnly) {
+        shops = shops.filter(s => s.isOpen);
+      }
+
+      // Sorting
+      if (sort === "rating") {
+        shops.sort((a, b) => b.rating - a.rating);
+      } else if (sort === "distance") {
+        shops.sort((a, b) => parseFloat(a.distance) - parseFloat(b.distance));
+      } else if (sort === "name") {
+        shops.sort((a, b) => a.name.localeCompare(b.name));
+      }
+
+      const grid = document.getElementById("explore-shops-grid");
+
+      if (shops.length === 0) {
+        grid.innerHTML = `
+          <div class="empty-state" style="grid-column: 1 / -1;">
+            <div class="empty-state-icon"><i data-lucide="store"></i></div>
+            <h3>No shops found nearby</h3>
+            <p>Try adjusting your search query, distance, or category filters.</p>
+            <button class="btn btn-outline" onclick="resetShopFilters()">Reset All Filters</button>
+          </div>
+        `;
+        renderIcons();
+        return;
+      }
+
+      grid.innerHTML = shops.map(s => createShopCardHTML(s, true)).join("");
+      renderIcons();
+    }
+
+    function resetShopFilters() {
+      document.getElementById("shop-search-input").value = "";
+      document.getElementById("shop-cat-filter").value = "ALL";
+      document.getElementById("shop-dist-filter").value = "ALL";
+      document.getElementById("shop-open-filter").checked = false;
+      filterShops();
+    }
+  </script>
+</body>
+</html>

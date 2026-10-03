@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Category Management — Admin Panel</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/seller.css">
+  <link rel="stylesheet" href="../css/admin.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+
+  <div class="dashboard-layout">
+    <aside class="sidebar" style="background:#0b1d2d;">
+      <div class="sidebar-brand"><i data-lucide="shield"></i> Admin<span>Panel</span></div>
+      <div class="sidebar-menu">
+        <a href="dashboard.html" class="sidebar-link"><i data-lucide="layout-dashboard"></i> Dashboard</a>
+        <a href="users.html" class="sidebar-link"><i data-lucide="users"></i> User Management</a>
+        <a href="sellers.html" class="sidebar-link"><i data-lucide="user-check"></i> Seller Approvals</a>
+        <a href="shops.html" class="sidebar-link"><i data-lucide="store"></i> Shops</a>
+        <a href="products.html" class="sidebar-link"><i data-lucide="package"></i> Products</a>
+        <a href="categories.html" class="sidebar-link active"><i data-lucide="tag"></i> Categories</a>
+        <a href="orders.html" class="sidebar-link"><i data-lucide="shopping-cart"></i> Orders</a>
+        <a href="complaints.html" class="sidebar-link"><i data-lucide="message-square"></i> Complaints</a>
+        <a href="revenue.html" class="sidebar-link"><i data-lucide="trending-up"></i> Revenue</a>
+        <a href="settings.html" class="sidebar-link"><i data-lucide="settings"></i> Platform Settings</a>
+      </div>
+      <div class="sidebar-footer">
+        <button class="sidebar-link" onclick="handleLogout()"><i data-lucide="log-out"></i> Logout</button>
+      </div>
+    </aside>
+
+    <div style="display:flex; flex-direction:column; min-height:100vh;">
+      <header class="dashboard-header">
+        <h2 style="font-size:1.4rem; font-weight:800; color:var(--navy);">Marketplace Categories</h2>
+        <button class="btn btn-primary btn-sm" onclick="openModal('add-category-modal')"><i data-lucide="plus"></i> Add Category</button>
+      </header>
+
+      <main class="dashboard-main" style="flex-grow:1;">
+        <div class="grid-4" id="admin-categories-grid">
+          <!-- Loaded dynamically -->
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Add Category Modal -->
+  <div class="modal-backdrop" id="add-category-modal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title">Create New Category</h3>
+        <button class="modal-close" onclick="closeModal('add-category-modal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label">Category Name</label>
+          <input type="text" id="new-cat-name" class="form-control" placeholder="e.g. Pet Care">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Lucide Icon Identifier</label>
+          <input type="text" id="new-cat-icon" class="form-control" placeholder="e.g. dog" value="shopping-bag">
+        </div>
+        <button class="btn btn-primary" style="width:100%; margin-top:1rem;" onclick="addCategorySubmit()">Save Category</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/data.js"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/admin.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      renderAdminCategoriesGrid();
+    });
+
+    function renderAdminCategoriesGrid() {
+      const categories = JSON.parse(localStorage.getItem("localcart_categories") || "[]");
+      const grid = document.getElementById("admin-categories-grid");
+      grid.innerHTML = categories.map(cat => `
+        <div class="card" style="padding:1.5rem; text-align:center;">
+          <div class="category-card-icon" style="margin:0 auto 1rem auto;">
+            <i data-lucide="${cat.icon || 'tag'}"></i>
+          </div>
+          <h3 style="font-size:1.15rem; color:var(--navy); margin-bottom:0.4rem;">${cat.name}</h3>
+          <div style="font-size:0.85rem; color:var(--muted); margin-bottom:1rem;">${cat.count || 5} Active Products</div>
+          <button class="btn btn-outline btn-sm" style="color:var(--danger);" onclick="deleteCategory('${cat.id}')">Delete</button>
+        </div>
+      `).join("");
+      renderIcons();
+    }
+
+    function addCategorySubmit() {
+      const name = document.getElementById("new-cat-name").value.trim();
+      const icon = document.getElementById("new-cat-icon").value.trim();
+      if (!name) return;
+
+      const categories = JSON.parse(localStorage.getItem("localcart_categories") || "[]");
+      categories.push({ id: "cat-" + Date.now(), name, icon, count: 0 });
+      localStorage.setItem("localcart_categories", JSON.stringify(categories));
+      closeModal("add-category-modal");
+      showToast(`Category "${name}" added!`, "success");
+      renderAdminCategoriesGrid();
+    }
+
+    function deleteCategory(id) {
+      if (confirm("Delete category?")) {
+        let categories = JSON.parse(localStorage.getItem("localcart_categories") || "[]");
+        categories = categories.filter(c => c.id !== id);
+        localStorage.setItem("localcart_categories", JSON.stringify(categories));
+        renderAdminCategoriesGrid();
+      }
+    }
+  </script>
+</body>
+</html>

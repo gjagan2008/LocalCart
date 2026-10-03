@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Control Panel — LocalCart</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/seller.css">
+  <link rel="stylesheet" href="../css/admin.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+
+  <div class="dashboard-layout">
+    <!-- Admin Sidebar -->
+    <aside class="sidebar" style="background:#0b1d2d;">
+      <div class="sidebar-brand">
+        <i data-lucide="shield"></i> Admin<span>Panel</span>
+      </div>
+
+      <div class="sidebar-menu">
+        <a href="dashboard.html" class="sidebar-link active"><i data-lucide="layout-dashboard"></i> Dashboard</a>
+        <a href="users.html" class="sidebar-link"><i data-lucide="users"></i> User Management</a>
+        <a href="sellers.html" class="sidebar-link"><i data-lucide="user-check"></i> Seller Approvals</a>
+        <a href="shops.html" class="sidebar-link"><i data-lucide="store"></i> Shops</a>
+        <a href="products.html" class="sidebar-link"><i data-lucide="package"></i> Products</a>
+        <a href="categories.html" class="sidebar-link"><i data-lucide="tag"></i> Categories</a>
+        <a href="orders.html" class="sidebar-link"><i data-lucide="shopping-cart"></i> Orders</a>
+        <a href="complaints.html" class="sidebar-link"><i data-lucide="message-square"></i> Complaints</a>
+        <a href="revenue.html" class="sidebar-link"><i data-lucide="trending-up"></i> Revenue</a>
+        <a href="settings.html" class="sidebar-link"><i data-lucide="settings"></i> Platform Settings</a>
+      </div>
+
+      <div class="sidebar-footer">
+        <button class="sidebar-link" style="width:100%; border:none; background:none; cursor:pointer;" onclick="handleLogout()">
+          <i data-lucide="log-out"></i> Logout
+        </button>
+      </div>
+    </aside>
+
+    <div style="display:flex; flex-direction:column; min-height:100vh;">
+      <header class="dashboard-header">
+        <div style="display:flex; align-items:center; gap:1rem;">
+          <h2 style="font-size:1.4rem; font-weight:800; color:var(--navy);">Platform Master Overview</h2>
+        </div>
+        <div style="display:flex; align-items:center; gap:1rem;">
+          <a href="../index.html" class="btn btn-outline btn-sm"><i data-lucide="external-link"></i> Customer View</a>
+          <span class="badge badge-navy">SUPER ADMIN</span>
+        </div>
+      </header>
+
+      <main class="dashboard-main" style="flex-grow:1;">
+        <!-- Top 8 Statistics Cards -->
+        <div class="admin-grid-8">
+          <div class="stat-card">
+            <div>
+              <div class="stat-label">Total Users</div>
+              <div class="stat-val" id="adm-users-count">0</div>
+            </div>
+            <div class="stat-icon stat-icon-navy"><i data-lucide="users"></i></div>
+          </div>
+
+          <div class="stat-card">
+            <div>
+              <div class="stat-label">Active Sellers</div>
+              <div class="stat-val" id="adm-sellers-count">0</div>
+            </div>
+            <div class="stat-icon stat-icon-green"><i data-lucide="user-check"></i></div>
+          </div>
+
+          <div class="stat-card">
+            <div>
+              <div class="stat-label">Total Shops</div>
+              <div class="stat-val" id="adm-shops-count">0</div>
+            </div>
+            <div class="stat-icon stat-icon-orange"><i data-lucide="store"></i></div>
+          </div>
+
+          <div class="stat-card">
+            <div>
+              <div class="stat-label">Total Products</div>
+              <div class="stat-val" id="adm-products-count">0</div>
+            </div>
+            <div class="stat-icon stat-icon-navy"><i data-lucide="package"></i></div>
+          </div>
+
+          <div class="stat-card">
+            <div>
+              <div class="stat-label">Total Orders</div>
+              <div class="stat-val" id="adm-orders-count">0</div>
+            </div>
+            <div class="stat-icon stat-icon-green"><i data-lucide="shopping-cart"></i></div>
+          </div>
+
+          <div class="stat-card">
+            <div>
+              <div class="stat-label">Platform Revenue</div>
+              <div class="stat-val" id="adm-revenue-val">₹0</div>
+            </div>
+            <div class="stat-icon stat-icon-orange"><i data-lucide="indian-rupee"></i></div>
+          </div>
+
+          <div class="stat-card">
+            <div>
+              <div class="stat-label">Pending Sellers</div>
+              <div class="stat-val text-accent" id="adm-pending-count">0</div>
+            </div>
+            <div class="stat-icon stat-icon-red"><i data-lucide="clock"></i></div>
+          </div>
+
+          <div class="stat-card">
+            <div>
+              <div class="stat-label">Complaints</div>
+              <div class="stat-val text-danger" id="adm-complaints-count">0</div>
+            </div>
+            <div class="stat-icon stat-icon-red"><i data-lucide="alert-circle"></i></div>
+          </div>
+        </div>
+
+        <!-- Revenue Overview Chart -->
+        <div class="chart-card" style="margin-bottom:2rem;">
+          <h3 style="font-size:1.2rem; color:var(--navy); margin-bottom:1rem;">Platform GMV & Revenue Growth (2026)</h3>
+          <div class="chart-container-box">
+            <canvas id="adminRevenueChart"></canvas>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="../js/data.js"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/admin.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      renderAdminDashboard();
+    });
+  </script>
+</body>
+</html>

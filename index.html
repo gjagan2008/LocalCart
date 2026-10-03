@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LocalCart — Shop Local. Buy Smart.</title>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/customer.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="container navbar-inner">
+      <a href="index.html" class="logo">
+        <i data-lucide="shopping-bag"></i> Local<span>Cart</span>
+      </a>
+
+      <nav class="navbar-links">
+        <a href="index.html" class="nav-link active">Home</a>
+        <a href="pages/shops.html" class="nav-link">Shops</a>
+        <a href="pages/shops.html#categories" class="nav-link">Categories</a>
+        <a href="#offers" class="nav-link">Offers</a>
+      </nav>
+
+      <div class="navbar-actions">
+        <div class="location-selector" onclick="openModal('location-modal')">
+          <i data-lucide="map-pin"></i>
+          <span>Indiranagar, Bengaluru</span>
+          <i data-lucide="chevron-down"></i>
+        </div>
+
+        <div class="nav-search-bar">
+          <i data-lucide="search" style="color:var(--muted);"></i>
+          <input type="text" placeholder="Search shops & products..." onkeypress="if(event.key==='Enter') window.location.href='pages/shops.html?q='+this.value">
+        </div>
+
+        <a href="pages/login.html" class="btn btn-outline btn-sm btn-text">Login</a>
+
+        <a href="pages/cart.html" class="cart-icon-btn" title="View Cart">
+          <i data-lucide="shopping-cart"></i>
+          <span class="cart-badge">0</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container hero-container">
+      <div class="hero-content">
+        <div class="hero-tag">
+          <i data-lucide="sparkles"></i> 2026 Hyperlocal Marketplace
+        </div>
+        <h1 class="hero-title">Shop Local.<br><span>Buy Smart.</span></h1>
+        <p class="hero-subtitle">
+          Discover trusted local shops, explore fresh products near you, and order everything from your neighborhood with fast delivery.
+        </p>
+        <div class="hero-btns">
+          <a href="pages/shops.html" class="btn btn-primary btn-lg">
+            <i data-lucide="store"></i> Explore Shops
+          </a>
+          <a href="seller/dashboard.html" class="btn btn-accent btn-lg">
+            <i data-lucide="briefcase"></i> Become a Seller
+          </a>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="hero-image-wrapper">
+          <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=800&q=80" alt="Local Shopping Marketplace">
+        </div>
+
+        <!-- Floating Card 1 -->
+        <div class="floating-card floating-card-1">
+          <div style="width:40px; height:40px; border-radius:50%; background:var(--primary-light); color:var(--primary); display:flex; align-items:center; justify-content:center;">
+            <i data-lucide="truck"></i>
+          </div>
+          <div>
+            <div style="font-weight:700; font-size:0.9rem; color:var(--navy);">Express Delivery</div>
+            <div style="font-size:0.75rem; color:var(--muted);">15-30 Mins nearby</div>
+          </div>
+        </div>
+
+        <!-- Floating Card 2 -->
+        <div class="floating-card floating-card-2">
+          <div style="width:40px; height:40px; border-radius:50%; background:var(--accent-light); color:var(--accent); display:flex; align-items:center; justify-content:center;">
+            <i data-lucide="star"></i>
+          </div>
+          <div>
+            <div style="font-weight:700; font-size:0.9rem; color:var(--navy);">Verified Sellers</div>
+            <div style="font-size:0.75rem; color:var(--muted);">4.8★ Avg Rating</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Categories Section -->
+  <section class="section" id="categories">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Explore Categories</h2>
+          <p class="section-subtitle">Find daily essentials, groceries, medicines and tech in your neighborhood</p>
+        </div>
+        <a href="pages/shops.html" class="btn btn-outline btn-sm">View All Categories ➔</a>
+      </div>
+
+      <div class="category-grid" id="home-categories-grid">
+        <!-- Loaded dynamically by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Nearby Shops Section -->
+  <section class="section" style="background:var(--white); border-top:1px solid var(--border); border-bottom:1px solid var(--border);">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Nearby Verified Shops</h2>
+          <p class="section-subtitle">Top rated neighborhood stores within 3 km</p>
+        </div>
+        <a href="pages/shops.html" class="btn btn-outline btn-sm">Explore All Shops ➔</a>
+      </div>
+
+      <div class="grid-3" id="home-shops-grid">
+        <!-- Loaded dynamically by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Popular Products Section -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Popular Near You</h2>
+          <p class="section-subtitle">Most ordered items with special discounts today</p>
+        </div>
+        <a href="pages/shops.html" class="btn btn-outline btn-sm">Browse Products ➔</a>
+      </div>
+
+      <div class="grid-4" id="home-products-grid">
+        <!-- Loaded dynamically by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Offers Section -->
+  <section class="section" id="offers" style="background:var(--white); border-top:1px solid var(--border); border-bottom:1px solid var(--border);">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Exclusive Local Offers</h2>
+          <p class="section-subtitle">Special promo codes and deals directly from store owners</p>
+        </div>
+      </div>
+
+      <div class="grid-3">
+        <div class="offer-card">
+          <span class="offer-tag">10% OFF</span>
+          <div>
+            <h3 class="offer-title">Use Code: LOCAL10</h3>
+            <p class="offer-desc">Get 10% instant discount on your first order above ₹300.</p>
+          </div>
+          <button class="btn btn-accent btn-sm" onclick="addToCart('p-101')">Claim Offer</button>
+        </div>
+
+        <div class="offer-card" style="background: linear-gradient(135deg, #1B8A5A 0%, #102A43 100%);">
+          <span class="offer-tag" style="background:var(--white); color:var(--primary);">FRESH TODAY</span>
+          <div>
+            <h3 class="offer-title">Farm Vegetables 20% OFF</h3>
+            <p class="offer-desc">Fresh morning harvest vegetables at discounted prices.</p>
+          </div>
+          <a href="pages/shops.html?category=Vegetables" class="btn btn-outline btn-sm" style="color:white; border-color:white;">Shop Fresh</a>
+        </div>
+
+        <div class="offer-card" style="background: linear-gradient(135deg, #243B53 0%, #102A43 100%);">
+          <span class="offer-tag" style="background:var(--accent);">FREE DELIVERY</span>
+          <div>
+            <h3 class="offer-title">Free Delivery Above ₹499</h3>
+            <p class="offer-desc">No delivery charge on large family grocery restocks.</p>
+          </div>
+          <a href="pages/shops.html" class="btn btn-accent btn-sm">Shop Now</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works Section -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header text-center" style="display:block; margin-bottom:3rem;">
+        <h2 class="section-title">How LocalCart Works</h2>
+        <p class="section-subtitle">Simple, quick, and supporting local business owners</p>
+      </div>
+
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-number">01</div>
+          <div class="step-icon"><i data-lucide="map-pin"></i></div>
+          <h3 class="step-title">Choose Location</h3>
+          <p class="step-desc">Enter your area or street name to discover nearby local shops.</p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number">02</div>
+          <div class="step-icon"><i data-lucide="store"></i></div>
+          <h3 class="step-title">Discover Stores</h3>
+          <p class="step-desc">Browse trusted grocery, bakery, pharmacy, and vegetable stores.</p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number">03</div>
+          <div class="step-icon"><i data-lucide="shopping-cart"></i></div>
+          <h3 class="step-title">Add to Cart</h3>
+          <p class="step-desc">Select daily essentials and customize items from your chosen shop.</p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number">04</div>
+          <div class="step-icon"><i data-lucide="check-circle"></i></div>
+          <h3 class="step-title">Fast Delivery</h3>
+          <p class="step-desc">Receive your items at your doorstep in under 30 minutes.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Seller CTA -->
+  <section class="section">
+    <div class="container">
+      <div class="seller-cta-box">
+        <div class="seller-cta-content">
+          <h2>Grow Your Local Business With LocalCart</h2>
+          <p>Bring your physical store online today. Reach thousands of neighborhood customers, manage orders, and boost daily sales with zero tech setup.</p>
+        </div>
+        <div>
+          <a href="seller/dashboard.html" class="btn btn-accent btn-lg">Become a Seller Now</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="logo">
+            <i data-lucide="shopping-bag"></i> Local<span>Cart</span>
+          </a>
+          <p>Empowering local business owners while delivering fresh daily essentials to neighborhood doorsteps.</p>
+        </div>
+
+        <div>
+          <h4 class="footer-title">Quick Links</h4>
+          <div class="footer-links">
+            <a href="index.html">Home</a>
+            <a href="pages/shops.html">Explore Shops</a>
+            <a href="pages/cart.html">My Cart</a>
+            <a href="pages/orders.html">Order History</a>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="footer-title">Customer</h4>
+          <div class="footer-links">
+            <a href="pages/profile.html">My Account</a>
+            <a href="pages/wishlist.html">Wishlist</a>
+            <a href="pages/order-tracking.html">Track Order</a>
+            <a href="pages/settings.html">Settings</a>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="footer-title">Seller & Admin</h4>
+          <div class="footer-links">
+            <a href="seller/dashboard.html">Seller Portal</a>
+            <a href="admin/dashboard.html">Admin Dashboard</a>
+            <a href="pages/register.html">Register Business</a>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="footer-title">Support</h4>
+          <div class="footer-links">
+            <a href="#">Help Center</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">Contact Us</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>© 2026 LocalCart Marketplace. All rights reserved.</div>
+        <div style="display:flex; gap:1rem;">
+          <a href="#"><i data-lucide="facebook"></i></a>
+          <a href="#"><i data-lucide="twitter"></i></a>
+          <a href="#"><i data-lucide="instagram"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Mobile Bottom Navigation Bar -->
+  <nav class="mobile-bottom-nav">
+    <div class="mobile-nav-items">
+      <a href="index.html" class="mobile-nav-item active">
+        <i data-lucide="home"></i>
+        <span>Home</span>
+      </a>
+      <a href="pages/shops.html" class="mobile-nav-item">
+        <i data-lucide="store"></i>
+        <span>Shops</span>
+      </a>
+      <a href="pages/cart.html" class="mobile-nav-item">
+        <i data-lucide="shopping-cart"></i>
+        <span>Cart</span>
+        <span class="mobile-nav-badge">0</span>
+      </a>
+      <a href="pages/orders.html" class="mobile-nav-item">
+        <i data-lucide="package"></i>
+        <span>Orders</span>
+      </a>
+      <a href="pages/profile.html" class="mobile-nav-item">
+        <i data-lucide="user"></i>
+        <span>Profile</span>
+      </a>
+    </div>
+  </nav>
+
+  <!-- Location Selection Modal -->
+  <div class="modal-backdrop" id="location-modal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title">Select Delivery Location</h3>
+        <button class="modal-close" onclick="closeModal('location-modal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label">Search Area or Pincode</label>
+          <input type="text" class="form-control" placeholder="e.g. Indiranagar, HSR Layout, 560038" value="Indiranagar, Bengaluru">
+        </div>
+        <div style="display:flex; flex-direction:column; gap:0.5rem; margin-top:1rem;">
+          <button class="btn btn-outline" style="justify-content:flex-start;" onclick="closeModal('location-modal'); showToast('Location set to Indiranagar');">
+            <i data-lucide="navigation"></i> Use Current GPS Location
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/customer.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      renderHomeCategories();
+      renderHomeShops();
+      renderHomeProducts();
+    });
+  </script>
+</body>
+</html>

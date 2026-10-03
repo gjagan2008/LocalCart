@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Settings — LocalCart</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/customer.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+
+  <header class="navbar">
+    <div class="container navbar-inner">
+      <a href="../index.html" class="logo"><i data-lucide="shopping-bag"></i> Local<span>Cart</span></a>
+      <nav class="navbar-links">
+        <a href="../index.html" class="nav-link">Home</a>
+        <a href="profile.html" class="nav-link">Profile</a>
+      </nav>
+      <div class="navbar-actions">
+        <button class="btn btn-outline btn-sm" onclick="handleLogout()">Logout</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" style="padding-top:2.5rem; padding-bottom:4rem; max-width:700px;">
+    <h1 style="font-size:2.25rem; font-weight:800; color:var(--navy); margin-bottom:1.5rem;">Account Settings</h1>
+
+    <div class="card" style="padding:2rem;">
+      <h3 style="margin-bottom:1.25rem;">Notification Preferences</h3>
+      <div style="display:flex; flex-direction:column; gap:1rem;">
+        <label style="display:flex; align-items:center; gap:0.75rem;">
+          <input type="checkbox" checked style="width:18px; height:18px;">
+          <span>SMS updates for live order tracking</span>
+        </label>
+        <label style="display:flex; align-items:center; gap:0.75rem;">
+          <input type="checkbox" checked style="width:18px; height:18px;">
+          <span>Email receipts and promo offers</span>
+        </label>
+      </div>
+
+      <div style="border-top:1px solid var(--border); margin-top:2rem; padding-top:1.5rem;">
+        <button class="btn btn-primary" onclick="showToast('Settings saved successfully!', 'success');">Save Preferences</button>
+      </div>
+    </div>
+  </main>
+
+  <script src="../js/data.js"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/auth.js"></script>
+</body>
+</html>

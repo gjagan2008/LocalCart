@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopping Cart — LocalCart</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/customer.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="container navbar-inner">
+      <a href="../index.html" class="logo">
+        <i data-lucide="shopping-bag"></i> Local<span>Cart</span>
+      </a>
+      <nav class="navbar-links">
+        <a href="../index.html" class="nav-link">Home</a>
+        <a href="shops.html" class="nav-link">Shops</a>
+      </nav>
+      <div class="navbar-actions">
+        <a href="cart.html" class="cart-icon-btn active" title="View Cart">
+          <i data-lucide="shopping-cart"></i>
+          <span class="cart-badge">0</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" style="padding-top:2.5rem; padding-bottom:4rem;">
+    <h1 style="font-size:2.25rem; font-weight:800; color:var(--navy); margin-bottom:1.5rem;">Your Cart</h1>
+
+    <div class="cart-container">
+      <!-- Items List -->
+      <div id="cart-items-list">
+        <!-- Rendered by JS -->
+      </div>
+
+      <!-- Order Summary Card -->
+      <div id="cart-summary-box">
+        <div class="card" style="padding:1.5rem; position:sticky; top:90px;">
+          <h3 style="font-size:1.25rem; color:var(--navy); margin-bottom:1.25rem; font-weight:800;">Order Summary</h3>
+          
+          <div class="form-group" style="margin-bottom:1.25rem;">
+            <label class="form-label">Promo Code</label>
+            <div style="display:flex; gap:0.5rem;">
+              <input type="text" id="coupon-code-input" class="form-control" placeholder="e.g. LOCAL10" style="text-transform:uppercase;">
+              <button class="btn btn-navy btn-sm" onclick="applyCartCoupon()">Apply</button>
+            </div>
+            <div style="font-size:0.75rem; color:var(--muted); margin-top:0.3rem;">Try code: <strong>LOCAL10</strong> for 10% discount</div>
+          </div>
+
+          <div style="border-top:1px solid var(--border); padding-top:1rem; display:flex; flex-direction:column; gap:0.75rem;">
+            <div style="display:flex; justify-content:space-between; color:var(--muted); font-size:0.95rem;">
+              <span>Subtotal</span>
+              <span id="cart-subtotal" style="font-weight:700; color:var(--navy);">₹0</span>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; color:var(--muted); font-size:0.95rem;">
+              <span>Delivery Charge</span>
+              <span id="cart-delivery" style="font-weight:700; color:var(--primary);">FREE</span>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; color:var(--accent); font-size:0.95rem;">
+              <span>Discount</span>
+              <span id="cart-discount" style="font-weight:700;">- ₹0</span>
+            </div>
+
+            <div style="border-top:1px solid var(--border); padding-top:1rem; margin-top:0.5rem; display:flex; justify-content:space-between; font-size:1.35rem; font-weight:800; color:var(--navy);">
+              <span>Total</span>
+              <span id="cart-total" style="color:var(--primary);">₹0</span>
+            </div>
+          </div>
+
+          <a href="checkout.html" class="btn btn-primary btn-lg" style="width:100%; margin-top:1.5rem;">
+            Proceed to Checkout ➔
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <div>© 2026 LocalCart Marketplace. All rights reserved.</div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/data.js"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/cart.js"></script>
+  <script src="../js/customer.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      renderCartPage();
+    });
+
+    function applyCartCoupon() {
+      const code = document.getElementById("coupon-code-input").value.trim().toUpperCase();
+      if (code === "LOCAL10") {
+        showToast("10% Discount Applied!", "success");
+      } else {
+        showToast("Invalid coupon code. Try LOCAL10", "warning");
+      }
+      updateOrderSummaryBox();
+    }
+  </script>
+</body>
+</html>
